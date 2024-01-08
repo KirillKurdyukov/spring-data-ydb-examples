@@ -15,11 +15,16 @@
  */
 package example.springdata.jpa.simple;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.util.ProxyUtils;
+
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Sample user class.
@@ -29,7 +34,12 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 @NamedQuery(name = "User.findByTheUsersName", query = "from User u where u.username = ?1")
-public class User extends AbstractPersistable<Long> {
+public class User {
+
+	@Id
+	@GeneratedValue(generator = "random-int-id")
+	@GenericGenerator(name = "random-int-id", type = RandomIntGenerator.class)
+	private Long id;
 
 	private static final long serialVersionUID = -2952735933715107252L;
 
@@ -97,5 +107,61 @@ public class User extends AbstractPersistable<Long> {
 	 */
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	private static class RandomIntGenerator implements IdentifierGenerator {
+
+		@Override
+		public Object generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) {
+			return ThreadLocalRandom.current().nextLong();
+		}
+	}
+
+	@Transient // DATAJPA-622
+	public boolean isNew() {
+		return null == getId();
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Entity of type %s with id: %s", this.getClass().getName(), getId());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (null == obj) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (!getClass().equals(ProxyUtils.getUserClass(obj))) {
+			return false;
+		}
+
+		User that = (User) obj;
+
+		return null == this.getId() ? false : this.getId().equals(that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hashCode = 17;
+
+		hashCode += null == getId() ? 0 : getId().hashCode() * 31;
+
+		return hashCode;
 	}
 }

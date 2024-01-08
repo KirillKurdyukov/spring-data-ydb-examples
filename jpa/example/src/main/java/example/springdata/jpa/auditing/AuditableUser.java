@@ -45,7 +45,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class AuditableUser {
 
-	private @Id @GeneratedValue Long id;
+	private @Id Long id;
 	private String username;
 
 	private @CreatedDate LocalDateTime createdDate;

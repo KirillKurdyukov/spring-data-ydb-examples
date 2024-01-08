@@ -18,6 +18,7 @@ package example.springdata.jpa.simple;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.data.domain.Sort.Direction.*;
 
+import example.springdata.jpa.YdbDockerBaseTest;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest
 @Slf4j
-class SimpleUserRepositoryTests {
+class SimpleUserRepositoryTests extends YdbDockerBaseTest {
 
 	@Autowired SimpleUserRepository repository;
 	private User user;

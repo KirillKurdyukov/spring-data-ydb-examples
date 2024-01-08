@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import example.springdata.jpa.YdbDockerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnJre;
@@ -42,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest(properties = "spring.threads.virtual.enabled=true")
 @EnabledOnJre(JRE.JAVA_21)
-class VirtualThreadsTests {
+class VirtualThreadsTests extends YdbDockerBaseTest {
 
 	@Autowired SimpleUserRepository repository;
 	private User user;

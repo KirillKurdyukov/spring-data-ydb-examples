@@ -17,6 +17,7 @@ package example.springdata.jpa.pagination;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.jpa.YdbDockerBaseTest;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
@@ -26,11 +27,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.KeysetScrollPosition;
 import org.springframework.data.domain.OffsetScrollPosition;
@@ -51,8 +53,9 @@ import com.github.javafaker.Faker;
  * @author Christoph Strobl
  * @author Mark Paluch
  */
-@DataJpaTest
-class PaginationTests {
+@SpringBootTest
+@Transactional
+class PaginationTests extends YdbDockerBaseTest {
 
 	@Configuration
 	@EnableAutoConfiguration

@@ -17,6 +17,7 @@ package example.springdata.jpa.auditing;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.jpa.YdbDockerBaseTest;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jens Schauder
  */
 @Transactional
-@SpringBootTest
-public class AuditableUserSample {
+@SpringBootTest(classes = AuditingConfiguration.class)
+public class AuditableUserSample extends YdbDockerBaseTest {
 
 	@Autowired AuditableUserRepository repository;
 	@Autowired AuditorAwareImpl auditorAware;
@@ -45,6 +46,7 @@ public class AuditableUserSample {
 		assertThat(ReflectionTestUtils.getField(listener, "handler")).isNotNull();
 
 		var user = new AuditableUser();
+		user.setId(1L);
 		user.setUsername("username");
 
 		auditorAware.setAuditor(user);

@@ -17,6 +17,7 @@ package example.springdata.jpa.caching;
 
 import static org.assertj.core.api.Assertions.*;
 
+import example.springdata.jpa.YdbDockerBaseTest;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @SpringBootTest
-class CachingRepositoryTests {
+class CachingRepositoryTests extends YdbDockerBaseTest {
 
 	@Autowired CachingUserRepository repository;
 	@Autowired CacheManager cacheManager;
